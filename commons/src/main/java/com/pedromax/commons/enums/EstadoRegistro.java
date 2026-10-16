@@ -18,9 +18,9 @@ public enum EstadoRegistro {
         StringCustomUtils.validarNoVacio(descripcion, "La descripción es requerida");
         String descripcionNormalizada = StringCustomUtils.quitarAcentos(descripcion);
 
-        for (EstadoRegistro categoria : values()){
-            if (StringCustomUtils.quitarAcentos(categoria.descripcion).equalsIgnoreCase(descripcionNormalizada))
-                return categoria;
+        for (EstadoRegistro estadoRegistro : values()){
+            if (StringCustomUtils.quitarAcentos(estadoRegistro.descripcion).equalsIgnoreCase(descripcionNormalizada))
+                return estadoRegistro;
         }
 
         throw new DatoInvalidoException("No existe un estado registro con la descripción: " + descripcion);
