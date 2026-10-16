@@ -1,0 +1,44 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
+  cloud:
+    gateway:
+      server:
+        webflux:
+          x-forwarded:
+            prefix-enabled: true
+          routes:
+            - id: huespedes
+              uri: lb://huespedes
+              predicates:
+                - Path=/api/huespedes/**
+              filters:
+                - StripPrefix=2
+
+            - id: habitaciones
+              uri: lb://habitaciones
+              predicates:
+                - Path=/api/habitaciones/**
+              filters:
+                - StripPrefix=2
+
+            - id: reservas
+              uri: lb://reservas
+              predicates:
+                - Path=/api/reservas/**
+              filters:
+                - StripPrefix=2
+    loadbalancer:
+      enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
