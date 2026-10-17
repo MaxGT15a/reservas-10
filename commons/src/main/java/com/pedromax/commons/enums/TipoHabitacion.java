@@ -9,9 +9,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum TipoHabitacion {
 
-    SENCILLA("Habitación sencilla (para pobres)"),
-    DOBLE("Habitación doble (para jodidos)"),
-    SUITE("Suite presidencial (para gente bien)");
+    SENCILLA("Sencilla"),
+    DOBLE("Doble"),
+    SUITE("Suite");
 
     private final String descripcion;
 
