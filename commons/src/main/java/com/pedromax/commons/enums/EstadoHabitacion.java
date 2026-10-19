@@ -1,5 +1,6 @@
 package com.pedromax.commons.enums;
 
+import com.pedromax.commons.exceptions.DatoInvalidoException;
 import com.pedromax.commons.exceptions.RecursoNoEncontradoException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,13 @@ public enum EstadoHabitacion {
     DISPONIBLE(1L, "Lista para asignarse") {
         @Override
         public Set<EstadoHabitacion> puedeCambiar() {
-            return EnumSet.of(LIMPIEZA, MANTENIMIENTO);
+            return EnumSet.of(LIMPIEZA, MANTENIMIENTO, OCUPADA);
         }
     },
     OCUPADA(2L, "Asignada a una reserva vigente") {
         @Override
         public Set<EstadoHabitacion> puedeCambiar() {
-            return Set.of();
+            return EnumSet.of(DISPONIBLE, LIMPIEZA);
         }
     },
     LIMPIEZA(3L, "Limpieza de habitación en proceso") {
@@ -41,7 +42,10 @@ public enum EstadoHabitacion {
     private final String descripcion;
 
     public abstract Set<EstadoHabitacion> puedeCambiar();
-    public boolean puedeCambiarA(EstadoHabitacion estadoHabitacion){
+    public boolean puedeCambiarA(EstadoHabitacion estadoHabitacion, boolean esCambioManual){
+        if (esCambioManual && estadoHabitacion == OCUPADA) {
+            return false;
+        }
         return puedeCambiar().contains(estadoHabitacion);
     }
 
@@ -51,6 +55,6 @@ public enum EstadoHabitacion {
                 return e;
         }
 
-        throw new RecursoNoEncontradoException("Código de estado de habitación no válido: " + codigo);
+        throw new DatoInvalidoException("Código de estado de habitación no válido: " + codigo);
     }
 }
