@@ -28,6 +28,12 @@ public class StringCustomUtils {
                 .replace("ú", "u").replace("ü", "u");
     }
 
+    public static void validarTextoNumerico(String texto, String mensajeError){
+        validarNoVacio(texto, mensajeError);
+        if(!texto.trim().matches("\\d+"))
+            throw new DatoInvalidoException(mensajeError);
+    }
+
     public static String localDateAString(LocalDate fecha) {
         return fecha == null ? null : fecha.format(formato);
     }
