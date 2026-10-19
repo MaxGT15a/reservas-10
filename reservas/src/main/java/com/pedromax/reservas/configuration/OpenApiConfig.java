@@ -24,7 +24,7 @@ public class OpenApiConfig {
                 .version("1.0.0")
                 .description("API para la gestión de las reservas"))
                 .servers(List.of(
-                        new Server().url("http://localhost:8082").description("Servidor del localhost"),
+                        new Server().url("http://localhost:8083").description("Servidor del localhost"),
                         new Server().url("http://localhost:8090/api/reservas").description("Servidor de API Gateway")
                 )).components(new Components().addSecuritySchemes(schemeName,
                         new SecurityScheme()
