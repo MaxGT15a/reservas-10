@@ -22,19 +22,17 @@ import java.util.List;
 @Slf4j
 public class HuespedServiceImpl implements HuespedService{
     private final HuespedRepository huespedRepository;
-    private final HuespedMapper huespedMapper;// Assuming HuespedRepository is defined somewhere in your project. This is a placeholder for the actual repository implementation. You need to replace this with the actual repository class that implements the CRUD operations for Huesped entities.
+    private final HuespedMapper huespedMapper;
 
     @Override
-    public HuespedResponse obtenerHuespedPorIdSinEstado(Long id) {
-        return null;
-    }
+    public HuespedResponse obtenerHuespedPorIdSinEstado(Long id) {return huespedMapper.entidadAResponse(obtenerHuesped(id));}
 
     @Override
-    @Transactional(readOnly = true) // This is a placeholder for the actual repository implementation. You need to replace this with the actual repository class that implements the CRUD operations for Huesped entities.
+    @Transactional(readOnly = true)
     public List<HuespedResponse> listar() {
         log.info("Listando todos los huespedes...");
         return huespedRepository.findAllByEstadoRegistro(EstadoRegistro.ACTIVO).stream()
-                .map(huespedMapper::entidadAResponse).toList();// Assuming EstadoRegistro.ACTIVO is the constant representing the active state of a Huesped;
+                .map(huespedMapper::entidadAResponse).toList();
     }
 
     @Override
