@@ -1,4 +1,4 @@
-package com.pedromax.reservas.dto;
+package com.pedromax.commons.dto.reservas;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pedromax.commons.dto.habitaciones.DatosHabitacion;
@@ -6,7 +6,7 @@ import com.pedromax.commons.dto.huespedes.DatosHuesped;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Schema(description = "Información detallada de una reservación hotelera registrada")
 public record ReservaResponse(
@@ -20,15 +20,13 @@ public record ReservaResponse(
         @Schema(description = "Información de la habitación asociada a la reserva")
         DatosHabitacion habitacion,
 
-        @Schema(description = "Fecha de entrada programada para la reserva (Check-in)",
-                example = "2026-10-25 15:00", type = "string", format = "date-time")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-        LocalDateTime fechaEntrada,
+        @Schema(description = "Fecha de entrada al hotel (Check-in)", example = "2026-10-25", type = "string", format = "date")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        LocalDate fechaEntrada,
 
-        @Schema(description = "Fecha de salida programada para la reserva (Check-out)",
-                example = "2026-10-30 12:00", type = "string", format = "date-time")
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-        LocalDateTime fechaSalida,
+        @Schema(description = "Fecha de salida del hotel (Check-out)", example = "2026-10-30", type = "string", format = "date")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+        LocalDate fechaSalida,
 
         @Schema(description = "Número de huéspedes registrados en la reserva", example = "2")
         Integer numPersonas,
