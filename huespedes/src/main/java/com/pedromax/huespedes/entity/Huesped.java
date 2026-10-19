@@ -1,6 +1,5 @@
 package com.pedromax.huespedes.entity;
 
-import com.pedromax.commons.enums.EstadoHabitacion;
 import com.pedromax.commons.enums.EstadoRegistro;
 import com.pedromax.commons.enums.TipoDocumento;
 import com.pedromax.commons.exceptions.ConflictoException;
@@ -11,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 
 @Entity
 @AllArgsConstructor
@@ -56,12 +54,17 @@ public class Huesped {
                               String nacionalidad){
         StringCustomUtils.validarTamanio(nombre, 2, 50,
                 "El nombre es requerido y debe de tener entre 2 a 50 caracteres");
+
         StringCustomUtils.validarTamanio(apellido, 2, 50,
                 "El apellido es requerido y debe de tener entre 2 a 50 caracteres");
+
         StringCustomUtils.validarNoVacio(email,"El email es requerido");
-        StringCustomUtils.validarTamanio(telefono, 10, 10,
-                "El teléfono es requerido y debe de tener 10 dígitos");
+
+        StringCustomUtils.validarTextoNumerico(
+                telefono, "El telefonio es requerido y debe contener solo numeros");
+
         StringCustomUtils.validarNoVacio(numeroDocumento,"El número de documento es requerido");
+
         StringCustomUtils.validarTamanio(nacionalidad, 2, 100,
                 "La nacionalidad es requerida y debe de tener entre 2 a 100 caracteres");
     }
@@ -78,29 +81,37 @@ public class Huesped {
 
     public static Huesped crear(String nombre, String apellido,
                                 String email, String telefono, String numeroDocumento,
-                                String nacionalidad, TipoDocumento tipoDocumento){
+                                String nacionalidad, String tipoDocumento){
 
         validarDatos(nombre, apellido, email, telefono, numeroDocumento, nacionalidad);
 
         return Huesped.builder()
-                .nombre(nombre)
-                .apellido(apellido)
-                .email(email)
-                .telefono(telefono)
+                .nombre(nombre.trim())
+                .apellido(apellido.trim())
+                .email(email.trim().toLowerCase())
+                .telefono(telefono.trim())
                 .numeroDocumento(numeroDocumento)
-                .nacionalidad(nacionalidad)
-                .tipoDocumento(tipoDocumento)
+                .nacionalidad(nacionalidad.trim())
+                .tipoDocumento(TipoDocumento.obtenerTipoDocumentoPorDescripcion(tipoDocumento))
                 .estadoRegistro(EstadoRegistro.ACTIVO)
                 .build();
     }
 
-    public void actualizar(Long idHuesped, String nombre, String apellido,
+    public void actualizar(String nombre, String apellido,
                                 String email, String telefono, String numeroDocumento,
-                                String nacionalidad, TipoDocumento tipoDocumento) {
+                                String nacionalidad, String tipoDocumento) {
+
+        validarDatos(nombre, apellido, email, telefono, numeroDocumento, nacionalidad);
 
         validarNoEliminado();
 
-        //TODO
+        this.nombre = nombre.trim();
+        this.apellido = apellido.trim();
+        this.email = email.trim().toLowerCase();
+        this.telefono = telefono.trim();
+        this.numeroDocumento = numeroDocumento;
+        this.nacionalidad = nacionalidad.trim();
+        this.tipoDocumento = TipoDocumento.obtenerTipoDocumentoPorDescripcion(tipoDocumento);
     }
 
 }
