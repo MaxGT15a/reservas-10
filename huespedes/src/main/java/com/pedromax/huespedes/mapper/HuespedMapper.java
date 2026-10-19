@@ -18,7 +18,7 @@ public class HuespedMapper implements CommonMapper<HuespedRequest, HuespedRespon
                 request.telefono(),
                 request.numeroDocumento(),
                 request.nacionalidad(),
-                TipoDocumento.valueOf(request.tipoDocumento())
+                request.tipoDocumento()
         );
     }
 

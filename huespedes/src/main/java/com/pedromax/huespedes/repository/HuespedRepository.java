@@ -11,8 +11,12 @@ import java.util.Optional;
 @Repository
 public interface HuespedRepository extends JpaRepository<Huesped, Long> {
 
-    List<Huesped> findByEstadoRegistro(EstadoRegistro estadoRegistro);
+    List<Huesped> findAllByEstadoRegistro(EstadoRegistro estadoRegistro);
 
     Optional<Huesped> findByIdAndEstadoRegistro(Long id, EstadoRegistro estadoRegistro);
+
+    boolean existsByEmailIgnoreCaseOrTelefonoAndEstadoRegistro(String email, String telefono, EstadoRegistro estadoRegistro);
+
+    boolean existsByEmailIgnoreCaseOrTelefonoAndEstadoRegistroAndIdNot(String email, String telefono, EstadoRegistro estadoRegistro, Long id);
 
 }
