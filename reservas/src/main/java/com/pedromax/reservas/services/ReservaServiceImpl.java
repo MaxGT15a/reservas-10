@@ -145,9 +145,16 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public boolean validarHabitacionNoTieneReservasActivas(Long idHabitacion) {
-        log.info("Validando que la habitación con id: {} no tenga reservas activas", idHabitacion);
-        return reservaRepository.existsByIdHabitacionAndEstadoRegistroAndEstadoReservaIn(idHabitacion, EstadoRegistro.ACTIVO, estadosReserva);
+    @Transactional(readOnly = true)
+    public ReservaResponse obtenerNumeroPersonasReserva(Long idHabitacion) {
+        log.info("Buscando reserva vigente para la habitación con ID: {}", idHabitacion);
+
+        Reserva reserva = reservaRepository
+                .findFirstByIdHabitacionAndEstadoRegistroAndEstadoReservaIn(idHabitacion, EstadoRegistro.ACTIVO, estadosReserva)
+                .orElseThrow(() -> new RecursoNoEncontradoException(
+                        "No se encontró ninguna reserva vigente para la habitación con ID: " + idHabitacion));
+
+        return reservaMapper.entidadAResponse(reserva);
     }
 
     @Override

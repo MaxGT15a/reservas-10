@@ -10,9 +10,8 @@ import java.util.Map;
 public interface ReservaService extends CrudService<ReservaRequest, ReservaResponse> {
 
     void actualizarEstadoReserva(Long idReserva, Integer idEstado);
-
     void validarHuespedNoTieneReservasActivas(Long idHuesped);
-    boolean validarHabitacionNoTieneReservasActivas(Long idHabitacion);
+    ReservaResponse obtenerNumeroPersonasReserva(Long idHabitacion);
 
     List<ReservaResponse> obtenerReporteHistorico();
     Map<String, List<ReservaResponse>> obtenerReportePorEstado();

@@ -28,7 +28,6 @@ public record HuespedRequest(
 
         @Schema(description = "Tipo de documento", example = "INE")
         @NotBlank(message = "El tipo de documento es obligatorio")
-        @Pattern(regexp = "^(INE|LICENCIA|PASAPORTE)$", message = "El tipo de documento debe ser: INE, LICENCIA o PASAPORTE")
         String tipoDocumento,
 
         @Schema(description = "Número único del documento de identidad", example = "ABCDE1234567890", minLength = 8, maxLength = 20)
