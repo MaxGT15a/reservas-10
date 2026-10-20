@@ -23,11 +23,11 @@ public record HuespedResponse(
         @Schema(description = "Tipo de documento de identidad", example = "INE")
         String tipoDocumento,
 
-        @Schema(description = "Número del documento de identidad", example = "ABCDE1234567890")
-        String numeroDocumento,
-
         @Schema(description = "Nacionalidad registrada", example = "Mexicana")
         String nacionalidad,
+
+        @Schema(description = "Número del documento de identidad", example = "ABCDE1234567890")
+        String numeroDocumento,
 
         @Schema(description = "Estado del registro", example = "ACTIVO")
         String estadoRegistro

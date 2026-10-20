@@ -74,9 +74,8 @@ public class HabitacionServiceImpl implements HabitacionService {
         Habitacion habitacion = obtenerHabitacionActivaPorId(id);
 
         if (habitacion.getEstadoHabitacion() == EstadoHabitacion.OCUPADA) {
-            if (habitacion.getCapacidad() < obtenerPersonasDeReservaVigente(id)) {
+            if (request.capacidad() < obtenerPersonasDeReservaVigente(id))
                 throw new ConflictoException("La capacidad no puede ser menor que el número de personas de la reserva vigente");
-            }
         }
 
         validarCambiosUnicos(request, id);
@@ -103,16 +102,12 @@ public class HabitacionServiceImpl implements HabitacionService {
         EstadoHabitacion nuevoEstado = EstadoHabitacion.obtenerEstadoHabitacionPorCodigo(idEstadoHabitacion);
 
         if (!esSistema) {
-            log.info("Origen detectado: Petición manual desde el Frontend/Navegador");
-
             if (habitacion.getEstadoHabitacion() == EstadoHabitacion.OCUPADA) {
-                throw new ConflictoException("No se puede cambiar manualmente el estado de una habitación ocupada");
+                throw new ConflictoException("No se puede cambiar manualmente el estado de una habitación ocupada a otro");
             }
             if (nuevoEstado == EstadoHabitacion.OCUPADA) {
-                throw new ConflictoException("Cualquier cambio manual hacia OCUPADA responde");
+                throw new ConflictoException("No se puede cambiar manualmente el estado de una habitación a ocupada");
             }
-        } else {
-            log.info("Origen detectado: Petición automática desde el Microservicio de Reservas");
         }
 
         habitacion.actualizarEstadoHabitacion(nuevoEstado);
@@ -159,12 +154,7 @@ public class HabitacionServiceImpl implements HabitacionService {
 
     private Integer obtenerPersonasDeReservaVigente(Long id){
         log.info("Buscando numero de personas en la reserva con id {} en el servicio remoto...", id);
-        ReservaResponse reserva = reservaClient.obtenerNumeroPersonasReserva(id);
+        ReservaResponse reserva = reservaClient.obtenerReservaVigentePorHabitacion(id);
         return reserva.numPersonas();
-    }
-
-    private boolean validarHabitacionNoTieneReservasActivas(Long id){
-        log.info("Validando si la habitación con id {} tiene una reserva activa en el servicio remoto...", id);
-        return reservaClient.validarHabitacionNoTieneReservasActivas(id);
     }
 }

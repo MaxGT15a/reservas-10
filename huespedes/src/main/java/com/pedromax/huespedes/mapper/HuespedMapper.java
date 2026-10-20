@@ -1,7 +1,7 @@
 package com.pedromax.huespedes.mapper;
 
-import com.pedromax.commons.dto.habitaciones.huespedes.HuespedRequest;
-import com.pedromax.commons.dto.habitaciones.huespedes.HuespedResponse;
+import com.pedromax.commons.dto.huespedes.HuespedRequest;
+import com.pedromax.commons.dto.huespedes.HuespedResponse;
 import com.pedromax.commons.mapper.CommonMapper;
 import com.pedromax.huespedes.entity.Huesped;
 import org.springframework.stereotype.Component;
@@ -30,8 +30,9 @@ public class HuespedMapper implements CommonMapper<HuespedRequest, HuespedRespon
                 entidad.getEmail(),
                 entidad.getTelefono(),
                 entidad.getNacionalidad(),
-                entidad.getTipoDocumento().toString(),
-                entidad.getNumeroDocumento()
+                entidad.getTipoDocumento().getDescripcion(),
+                entidad.getNumeroDocumento(),
+                entidad.getEstadoRegistro().getDescripcion()
         );
     }
 }

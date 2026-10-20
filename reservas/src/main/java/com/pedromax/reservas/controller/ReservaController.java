@@ -39,6 +39,8 @@ public class ReservaController extends CrudController<ReservaRequest, ReservaRes
     }
 
     @GetMapping("/huesped-reserva/{idHuesped}")
+    @Operation(summary = "Valida si un huésped tiene reservas activas",
+            description = "Validar si un huésped tiene reservas activas")
     @ApiResponse(responseCode = "204", description = "El huésped no tiene citas activas")
     @ApiResponse(responseCode = "409", description = "El huésped tiene una reserva activa y no puede agendar otra",
             content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaDoc.class)))
@@ -50,13 +52,15 @@ public class ReservaController extends CrudController<ReservaRequest, ReservaRes
     }
 
     @GetMapping("/habitacion-reserva/{idHabitacion}")
-    @ApiResponse(responseCode = "204", description = "La habitación no tiene reservas activas")
-    @ApiResponse(responseCode = "409", description = "La habitación tiene una reserva activa y no puede agendar otra",
+    @Operation(summary = "Obtener reserva vigente por ID de habitación",
+            description = "Consumo interno para validar la capacidad de la habitación frente a una reserva activa")
+    @ApiResponse(responseCode = "200", description = "Reserva vigente encontrada exitosamente")
+    @ApiResponse(responseCode = "404", description = "No existe una reserva activa para la habitación especificada",
             content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaDoc.class)))
-    public ResponseEntity<Boolean> habitacionTieneReservaActiva(
-            @PathVariable @Positive(message = "El idHabitacion debe ser positivo") Long idHabitacion
-    ) {
-        return ResponseEntity.ok(service.validarHabitacionNoTieneReservasActivas(idHabitacion));
+    public ResponseEntity<ReservaResponse> obtenerNumeroPersonasReserva(
+            @PathVariable @Positive(message = "El idHabitacion debe ser positivo") Long idHabitacion) {
+        ReservaResponse response = service.obtenerNumeroPersonasReserva(idHabitacion);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/reportes/historico")
