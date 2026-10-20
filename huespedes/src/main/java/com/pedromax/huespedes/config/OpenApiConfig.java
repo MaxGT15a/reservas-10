@@ -20,9 +20,9 @@ public class OpenApiConfig {
         final String schemeName = "bearerAuth";
 
         return new OpenAPI().info(new Info()
-                .title("API de Huespedes")
+                .title("API de Huéspedes")
                 .version("1.0.0")
-                .description("API para la gestión de las huespedes"))
+                .description("API para la gestión de las huéspedes"))
                 .servers(List.of(
                         new Server().url("http://localhost:8081").description("Servidor del localhost"),
                         new Server().url("http://localhost:8090/api/huespedes").description("Servidor de API Gateway")

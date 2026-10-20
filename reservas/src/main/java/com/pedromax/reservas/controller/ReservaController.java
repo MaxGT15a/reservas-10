@@ -53,11 +53,10 @@ public class ReservaController extends CrudController<ReservaRequest, ReservaRes
     @ApiResponse(responseCode = "204", description = "La habitación no tiene reservas activas")
     @ApiResponse(responseCode = "409", description = "La habitación tiene una reserva activa y no puede agendar otra",
             content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaDoc.class)))
-    public ResponseEntity<Void> habitacionTieneReservaActiva(
+    public ResponseEntity<Boolean> habitacionTieneReservaActiva(
             @PathVariable @Positive(message = "El idHabitacion debe ser positivo") Long idHabitacion
     ) {
-        service.validarHabitacionNoTieneReservasActivas(idHabitacion);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(service.validarHabitacionNoTieneReservasActivas(idHabitacion));
     }
 
     @GetMapping("/reportes/historico")

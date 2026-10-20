@@ -3,8 +3,8 @@ package com.pedromax.commons.clients;
 import com.pedromax.commons.dto.habitaciones.HabitacionResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @FeignClient(name = "habitaciones")
 public interface HabitacionClient {
@@ -15,6 +15,6 @@ public interface HabitacionClient {
     @GetMapping("/id-habitacion/{id}")
     HabitacionResponse obtenerHabitacionPorIdSinEstado(@PathVariable("id") Long id);
 
-    @PatchMapping("/{id}/estado/{idEstado}")
+    @PutMapping("/{id}/estado/{idEstado}")
     void actualizarEstadoHabitacion(@PathVariable("id") Long id, @PathVariable("idEstado") Long idEstado);
 }

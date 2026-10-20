@@ -25,9 +25,9 @@ public class HuespedController extends CrudController<HuespedRequest, HuespedRes
     }
 
     @GetMapping("/id-huesped/{id}")
-    @Operation(summary = "Obtener huesped por id sin importar el estado del registro")
-    @ApiResponse(responseCode = "200", description = "Huesped sin estado encontrado")
-    @ApiResponse(responseCode = "404", description = "El huesped sin estado no existe",
+    @Operation(summary = "Obtener huésped por id sin importar el estado del registro")
+    @ApiResponse(responseCode = "200", description = "Huésped sin estado encontrado")
+    @ApiResponse(responseCode = "404", description = "El huésped sin estado no existe",
             content = @Content(mediaType = "application/problem+json", schema = @Schema(implementation = ProblemaDoc.class)))
     public ResponseEntity<HuespedResponse> obtenerHuespedPorIdSinEstado(
             @PathVariable @Positive(message = "El ID debe ser positivo") Long id

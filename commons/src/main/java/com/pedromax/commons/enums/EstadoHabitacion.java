@@ -22,7 +22,7 @@ public enum EstadoHabitacion {
     OCUPADA(2L, "Asignada a una reserva vigente") {
         @Override
         public Set<EstadoHabitacion> puedeCambiar() {
-            return EnumSet.of(DISPONIBLE, LIMPIEZA);
+            return EnumSet.of(DISPONIBLE, LIMPIEZA, OCUPADA);
         }
     },
     LIMPIEZA(3L, "Limpieza de habitación en proceso") {
@@ -42,10 +42,7 @@ public enum EstadoHabitacion {
     private final String descripcion;
 
     public abstract Set<EstadoHabitacion> puedeCambiar();
-    public boolean puedeCambiarA(EstadoHabitacion estadoHabitacion, boolean esCambioManual){
-        if (esCambioManual && estadoHabitacion == OCUPADA) {
-            return false;
-        }
+    public boolean puedeCambiarA(EstadoHabitacion estadoHabitacion){
         return puedeCambiar().contains(estadoHabitacion);
     }
 
