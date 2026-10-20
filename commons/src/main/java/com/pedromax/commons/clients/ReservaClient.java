@@ -13,7 +13,7 @@ public interface ReservaClient {
     ResponseEntity<Void> validarHuespedNoTieneReservasActivas(@PathVariable Long idHuesped);
 
     @GetMapping("/habitacion-reserva/{idHabitacion}")
-    ResponseEntity<Void> validarHabitacionNoTieneReservasActivas(@PathVariable Long idHuesped);
+    Boolean validarHabitacionNoTieneReservasActivas(@PathVariable Long idHabitacion);
 
     @GetMapping("/{id}")
     ReservaResponse obtenerNumeroPersonasReserva(@PathVariable Long id);

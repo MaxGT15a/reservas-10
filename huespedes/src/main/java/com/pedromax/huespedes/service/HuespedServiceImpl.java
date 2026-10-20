@@ -26,7 +26,7 @@ public class HuespedServiceImpl implements HuespedService{
 
     @Override
     public HuespedResponse obtenerHuespedPorIdSinEstado(Long id) {
-        return null;
+        return huespedMapper.entidadAResponse(obtenerHuesped(id));
     }
 
     @Override

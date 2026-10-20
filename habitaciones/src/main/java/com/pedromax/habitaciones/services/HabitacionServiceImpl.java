@@ -13,10 +13,9 @@ import com.pedromax.commons.exceptions.RecursoNoEncontradoException;
 import com.pedromax.habitaciones.entities.Habitacion;
 import com.pedromax.habitaciones.mapper.HabitacionMapper;
 import com.pedromax.habitaciones.repositories.HabitacionRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,7 @@ public class HabitacionServiceImpl implements HabitacionService {
     private final HabitacionRepository habitacionRepository;
     private final HabitacionMapper habitacionMapper;
     private final ReservaClient reservaClient;
+    private final HttpServletRequest servletRequest;
 
     @Override
     @Transactional(readOnly = true)
@@ -98,13 +98,24 @@ public class HabitacionServiceImpl implements HabitacionService {
         Habitacion habitacion = obtenerHabitacionActivaPorId(idHabitacion);
         log.info("Actualizando estado de la habitación con id: {}", idHabitacion);
 
-        //== Verificar si el cambio es manual
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean esCambioManual = (authentication != null && authentication.isAuthenticated()
-                && !(authentication instanceof AnonymousAuthenticationToken));
+        String userAgent = servletRequest.getHeader("User-Agent");
+        boolean esSistema = (userAgent == null || userAgent.startsWith("Java") || userAgent.toLowerCase().contains("feign"));
+        EstadoHabitacion nuevoEstado = EstadoHabitacion.obtenerEstadoHabitacionPorCodigo(idEstadoHabitacion);
 
-        habitacion.actualizarEstadoHabitacion(
-                EstadoHabitacion.obtenerEstadoHabitacionPorCodigo(idEstadoHabitacion), esCambioManual);
+        if (!esSistema) {
+            log.info("Origen detectado: Petición manual desde el Frontend/Navegador");
+
+            if (habitacion.getEstadoHabitacion() == EstadoHabitacion.OCUPADA) {
+                throw new ConflictoException("No se puede cambiar manualmente el estado de una habitación ocupada");
+            }
+            if (nuevoEstado == EstadoHabitacion.OCUPADA) {
+                throw new ConflictoException("Cualquier cambio manual hacia OCUPADA responde");
+            }
+        } else {
+            log.info("Origen detectado: Petición automática desde el Microservicio de Reservas");
+        }
+
+        habitacion.actualizarEstadoHabitacion(nuevoEstado);
         habitacionRepository.saveAndFlush(habitacion);
         log.info("Estado de la habitación {} actualizando correctamente", idHabitacion);
     }
@@ -150,5 +161,10 @@ public class HabitacionServiceImpl implements HabitacionService {
         log.info("Buscando numero de personas en la reserva con id {} en el servicio remoto...", id);
         ReservaResponse reserva = reservaClient.obtenerNumeroPersonasReserva(id);
         return reserva.numPersonas();
+    }
+
+    private boolean validarHabitacionNoTieneReservasActivas(Long id){
+        log.info("Validando si la habitación con id {} tiene una reserva activa en el servicio remoto...", id);
+        return reservaClient.validarHabitacionNoTieneReservasActivas(id);
     }
 }

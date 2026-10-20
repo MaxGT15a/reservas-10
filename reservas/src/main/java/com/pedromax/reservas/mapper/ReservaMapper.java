@@ -1,7 +1,5 @@
 package com.pedromax.reservas.mapper;
 
-import com.pedromax.commons.dto.habitaciones.HabitacionRequest;
-import com.pedromax.commons.enums.TipoHabitacion;
 import com.pedromax.commons.mapper.CommonMapper;
 import com.pedromax.commons.dto.habitaciones.DatosHabitacion;
 import com.pedromax.commons.dto.huespedes.DatosHuesped;
@@ -44,7 +42,7 @@ public class ReservaMapper implements CommonMapper<ReservaRequest, ReservaRespon
                 entidad.getNumPersonas(),
                 entidad.getPrecioNoche(),
                 entidad.getPrecioTotal(),
-                entidad.getEstadoReserva().name()
+                entidad.getEstadoReserva().getDescripcion()
         );
     }
 
@@ -58,7 +56,7 @@ public class ReservaMapper implements CommonMapper<ReservaRequest, ReservaRespon
                 entidad.getNumPersonas(),
                 entidad.getPrecioNoche(),
                 entidad.getPrecioTotal(),
-                entidad.getEstadoReserva().name()
+                entidad.getEstadoReserva().getDescripcion()
         );
     }
 

@@ -12,7 +12,7 @@ public interface ReservaService extends CrudService<ReservaRequest, ReservaRespo
     void actualizarEstadoReserva(Long idReserva, Integer idEstado);
 
     void validarHuespedNoTieneReservasActivas(Long idHuesped);
-    void validarHabitacionNoTieneReservasActivas(Long idHabitacion);
+    boolean validarHabitacionNoTieneReservasActivas(Long idHabitacion);
 
     List<ReservaResponse> obtenerReporteHistorico();
     Map<String, List<ReservaResponse>> obtenerReportePorEstado();

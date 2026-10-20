@@ -2,7 +2,6 @@ package com.pedromax.huespedes.mapper;
 
 import com.pedromax.commons.dto.habitaciones.huespedes.HuespedRequest;
 import com.pedromax.commons.dto.habitaciones.huespedes.HuespedResponse;
-import com.pedromax.commons.enums.TipoDocumento;
 import com.pedromax.commons.mapper.CommonMapper;
 import com.pedromax.huespedes.entity.Huesped;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class HuespedMapper implements CommonMapper<HuespedRequest, HuespedRespon
     @Override
     public HuespedResponse entidadAResponse(Huesped entidad) {
         return entidad == null ? null : new HuespedResponse(
-                entidad.getIdHuesped(),
+                entidad.getId(),
                 entidad.getNombre(),
                 entidad.getApellido(),
                 entidad.getEmail(),

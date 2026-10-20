@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +20,7 @@ public class Huesped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_HUESPED")
-    private Long idHuesped;
+    private Long id;
 
     @Column(name = "NOMBRE", nullable = false, length = 50)
     private String nombre;

@@ -65,13 +65,13 @@ public class Habitacion {
         this.tipoHabitacion = tipoHabitacion;
     }
 
-    public void actualizarEstadoHabitacion(EstadoHabitacion nuevoEstado, boolean esCambioManual) {
+    public void actualizarEstadoHabitacion(EstadoHabitacion nuevoEstado) {
         validarNoEliminada();
 
         if (nuevoEstado == null)
             throw new DatoInvalidoException("El nuevo estado de la habitación es requerido");
 
-        if (!this.estadoHabitacion.puedeCambiarA(nuevoEstado, esCambioManual)) {
+        if (!this.estadoHabitacion.puedeCambiarA(nuevoEstado)) {
             throw new ConflictoException("Transición manual no permitida desde " + this.estadoHabitacion + " hacia " + nuevoEstado);
         }
 

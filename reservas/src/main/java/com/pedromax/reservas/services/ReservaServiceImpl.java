@@ -42,13 +42,19 @@ public class ReservaServiceImpl implements ReservaService {
         log.info("Listando todas las reservas activas");
 
         return reservaRepository.findByEstadoRegistro(EstadoRegistro.ACTIVO).stream()
-                .map(reservaMapper::entidadAResponse).toList();
+                .map(reserva -> reservaMapper.entidadAResponse(reserva,
+                        obtenerHuespedSinEstado(reserva.getIdHuesped()),
+                        obtenerHabitacionSinEstado(reserva.getIdHabitacion()))
+                ).toList();
     }
 
     @Override
     @Transactional(readOnly = true)
     public ReservaResponse obtenerPorId(Long id) {
-        return reservaMapper.entidadAResponse(obtenerReservaActivaPorId(id));
+        Reserva reserva = obtenerReservaActivaPorId(id);
+        return reservaMapper.entidadAResponse(reserva,
+                obtenerHuespedSinEstado(reserva.getIdHuesped()), obtenerHabitacionSinEstado(reserva.getIdHabitacion())
+        );
     }
 
     @Override
@@ -64,7 +70,7 @@ public class ReservaServiceImpl implements ReservaService {
         if (request.numPersonas() > habitacion.capacidad())
             throw new ConflictoException("El numero de personas de la reserva no pude ser mayor a la capacidad de la habitación");
 
-        Reserva reserva = reservaMapper.requestAEntidad(request);
+        Reserva reserva = reservaMapper.requestAEntidad(request, habitacion.precio());
         reservaRepository.saveAndFlush(reserva);
 
         log.info("Reserva registrada exitosamente");
@@ -139,12 +145,9 @@ public class ReservaServiceImpl implements ReservaService {
     }
 
     @Override
-    public void validarHabitacionNoTieneReservasActivas(Long idHabitacion) {
+    public boolean validarHabitacionNoTieneReservasActivas(Long idHabitacion) {
         log.info("Validando que la habitación con id: {} no tenga reservas activas", idHabitacion);
-
-        if (reservaRepository.existsByIdHabitacionAndEstadoRegistroAndEstadoReservaIn(idHabitacion, EstadoRegistro.ACTIVO, estadosReserva))
-            throw new ConflictoException("La habitación con id: " + idHabitacion + " ya tiene una reserva activa");
-
+        return reservaRepository.existsByIdHabitacionAndEstadoRegistroAndEstadoReservaIn(idHabitacion, EstadoRegistro.ACTIVO, estadosReserva);
     }
 
     @Override
