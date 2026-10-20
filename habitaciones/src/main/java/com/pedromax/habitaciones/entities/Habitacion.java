@@ -59,18 +59,21 @@ public class Habitacion {
     }
 
     public void actualizarTipoHabitacion(TipoHabitacion tipoHabitacion) {
-        validarNoEliminada();
         if (tipoHabitacion == null)
             throw new DatoInvalidoException("El tipo de habitación es requerido");
+
         this.tipoHabitacion = tipoHabitacion;
     }
 
     public void actualizarEstadoHabitacion(EstadoHabitacion nuevoEstado) {
+        validarNoEliminada();
+
         if (nuevoEstado == null)
             throw new DatoInvalidoException("El nuevo estado de la habitación es requerido");
 
-        if (!estadoHabitacion.puedeCambiarA(nuevoEstado))
-            throw new ConflictoException("La habitación con estado " + estadoHabitacion + " solo puede cambiar a " + estadoHabitacion.puedeCambiar());
+        if (!this.estadoHabitacion.puedeCambiarA(nuevoEstado)) {
+            throw new ConflictoException("Transición manual no permitida desde " + this.estadoHabitacion + " hacia " + nuevoEstado);
+        }
 
         this.estadoHabitacion = nuevoEstado;
     }
@@ -102,4 +105,5 @@ public class Habitacion {
                 .build();
 
     }
+
 }

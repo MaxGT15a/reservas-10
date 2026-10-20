@@ -8,13 +8,13 @@ import java.math.BigDecimal;
 public record DatosHabitacion(
 
         @Schema(description = "Número de la habitación", example = "1")
-        Integer numero,
+        String numero,
 
         @Schema(description = "Precio de la habitación", example = "789.00")
-        BigDecimal precio,
+        String precio,
 
         @Schema(description = "Capacidad de huéspedes de la habitación", example = "2")
-        Integer capacidad,
+        String capacidad,
 
         @Schema(description = "Tipo de habitación", example = "Sencilla")
         String tipoHabitacion
