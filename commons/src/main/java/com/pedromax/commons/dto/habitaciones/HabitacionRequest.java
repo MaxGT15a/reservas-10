@@ -23,10 +23,7 @@ public record HabitacionRequest(
         @Positive(message = "La capacidad de huéspedes de la habitación debe ser positiva")
         Integer capacidad,
 
-        @Schema(description = "Tipo de habitación (Puede estar en mayúsculas o minúsculas)", example = "SENCILLA",
-                allowableValues = {"SENCILLA", "DOBLE", "SUITE"
-                }
-        )
+        @Schema(description = "Tipo de habitación (Puede estar en mayúsculas o minúsculas)", example = "SENCILLA")
         @NotBlank(message = "La categoría es requerida")
         String tipoHabitacion
 ) {}

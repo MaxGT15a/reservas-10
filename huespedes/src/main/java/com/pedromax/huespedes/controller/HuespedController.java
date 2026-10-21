@@ -2,8 +2,8 @@ package com.pedromax.huespedes.controller;
 
 import com.pedromax.commons.controller.CrudController;
 import com.pedromax.commons.docs.ProblemaDoc;
-import com.pedromax.commons.dto.habitaciones.huespedes.HuespedRequest;
-import com.pedromax.commons.dto.habitaciones.huespedes.HuespedResponse;
+import com.pedromax.commons.dto.huespedes.HuespedRequest;
+import com.pedromax.commons.dto.huespedes.HuespedResponse;
 import com.pedromax.huespedes.service.HuespedService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
