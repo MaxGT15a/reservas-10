@@ -181,6 +181,20 @@ public class ReservaServiceImpl implements ReservaService {
                 )).collect(Collectors.groupingBy(ReservaResponse::estadoReserva));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Long> obtenerIdsHuespedesConReservaActiva() {
+        log.info("Consultando huéspedes con reservas activas");
+
+        return reservaRepository
+                .findByEstadoRegistroAndEstadoReservaIn(EstadoRegistro.ACTIVO, estadosReserva).stream()
+                .map(Reserva::getIdHuesped)
+                .distinct()
+                .toList();
+    }
+
+    //========================================================\\
+
     private Reserva obtenerReservaActivaPorId(Long id) {
         log.info("Buscando reserva activa con ID {}", id);
 

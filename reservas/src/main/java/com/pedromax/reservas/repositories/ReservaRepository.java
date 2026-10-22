@@ -24,4 +24,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 
     Optional<Reserva> findFirstByIdHabitacionAndEstadoRegistroAndEstadoReservaIn(
             Long idHabitacion, EstadoRegistro estadoRegistro, Collection<EstadoReserva> estadosReserva);
+
+    List<Reserva> findByEstadoRegistroAndEstadoReservaIn(
+            EstadoRegistro estadoRegistro, Collection<EstadoReserva> estadosReserva);
 }
