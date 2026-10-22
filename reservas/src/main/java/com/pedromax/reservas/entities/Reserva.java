@@ -61,10 +61,14 @@ public class Reserva {
         ValoresNumericosUtils.validarNumeroPositivo(id, "El id del/la " + campo + " es requerido(a) y debe ser positivo(a)");
     }
 
+    private static void validarFechaNoAnteriorAHoy(LocalDate fechaCita){
+        if (fechaCita == null || !fechaCita.isAfter((LocalDate.now())))
+            throw new DatoInvalidoException("La fecha de la reserva es requerida y debe ser futura");
+    }
+
     private static void esFechaInicioMenor(LocalDate fechaEntrada, LocalDate fechaSalida) {
-        if (fechaEntrada == null || fechaSalida == null) {
-            throw new DatoInvalidoException("Las fechas de entrada y salida son requeridas");
-        }
+        validarFechaNoAnteriorAHoy(fechaEntrada);
+        validarFechaNoAnteriorAHoy(fechaSalida);
 
         if (!fechaEntrada.isBefore(fechaSalida))
             throw new DatoInvalidoException("La fecha de entrada no puede ser mayor que la fecha de salida");
