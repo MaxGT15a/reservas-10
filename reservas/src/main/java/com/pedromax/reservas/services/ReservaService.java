@@ -15,4 +15,5 @@ public interface ReservaService extends CrudService<ReservaRequest, ReservaRespo
 
     List<ReservaResponse> obtenerReporteHistorico();
     Map<String, List<ReservaResponse>> obtenerReportePorEstado();
+    List<Long> obtenerIdsHuespedesConReservaActiva();
 }
