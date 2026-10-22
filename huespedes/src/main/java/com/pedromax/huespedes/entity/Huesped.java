@@ -60,7 +60,7 @@ public class Huesped {
         StringCustomUtils.validarNoVacio(email,"El email es requerido");
 
         StringCustomUtils.validarTextoNumerico(
-                telefono, "El telefonio es requerido y debe contener solo numeros");
+                telefono, "El teléfono es requerido y debe contener solo números");
 
         StringCustomUtils.validarNoVacio(numeroDocumento,"El número de documento es requerido");
 
@@ -70,7 +70,7 @@ public class Huesped {
 
     private void validarNoEliminado() {
         if (this.estadoRegistro == EstadoRegistro.ELIMINADO)
-            throw new ConflictoException("Este huesped ya ha sido eliminado");
+            throw new ConflictoException("Este huésped ya ha sido eliminado");
     }
 
     public void eliminar() {

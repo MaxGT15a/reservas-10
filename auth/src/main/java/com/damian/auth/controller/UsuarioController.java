@@ -1,13 +1,6 @@
 package com.damian.auth.controller;
 
-import java.util.Set;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.pedromax.commons.controller.CrudController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,28 +8,11 @@ import com.damian.auth.dto.UsuarioRequest;
 import com.damian.auth.dto.UsuarioResponse;
 import com.damian.auth.services.UsuarioService;
 
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-
 @RestController
 @RequestMapping("/admin/usuarios")
-@AllArgsConstructor
-public class UsuarioController {
+public class UsuarioController extends CrudController<UsuarioRequest, UsuarioResponse, UsuarioService> {
 
-    private final UsuarioService usuarioService;
-
-    @GetMapping
-    public ResponseEntity<Set<UsuarioResponse>> listar() {
-        return ResponseEntity.ok(usuarioService.listar());
-    }
-
-    @PostMapping
-    public ResponseEntity<UsuarioResponse> registrar(@Valid @RequestBody UsuarioRequest request) {
-        return ResponseEntity.ok(usuarioService.registrar(request));
-    }
-
-    @DeleteMapping("/{username}")
-    public ResponseEntity<UsuarioResponse> eliminar(@PathVariable String username) {
-        return ResponseEntity.ok(usuarioService.eliminar(username));
+    public UsuarioController(UsuarioService service) {
+        super(service);
     }
 }

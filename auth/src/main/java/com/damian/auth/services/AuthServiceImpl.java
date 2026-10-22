@@ -65,7 +65,7 @@ public class AuthServiceImpl implements AuthService {
                 .issuer("http://localhost:9000")
                 .subject(userDetails.getUsername())
                 .issueTime(Date.from(now))
-                .expirationTime(Date.from(now.plusSeconds(3600)))
+                .expirationTime(Date.from(now.plusSeconds(900)))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("roles", userDetails.getAuthorities()
                         .stream().map(GrantedAuthority::getAuthority).toList()).build();

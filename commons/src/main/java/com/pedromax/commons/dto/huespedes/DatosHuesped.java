@@ -5,6 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Datos de un huésped asignado a una reservas")
 public record DatosHuesped(
 
+        @Schema(description = "Identificador único del huésped", example = "1")
+        Long id,
+
         @Schema(description = "Nombre completo del huésped", example = "Pedro Vásquez")
         String nombreCompleto,
 

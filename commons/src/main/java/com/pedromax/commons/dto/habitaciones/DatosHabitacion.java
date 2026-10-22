@@ -2,10 +2,11 @@ package com.pedromax.commons.dto.habitaciones;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.math.BigDecimal;
-
 @Schema(description = "Datos de una habitación asociada a una reserva")
 public record DatosHabitacion(
+
+        @Schema(description = "Identificador único de la habitación", example = "1")
+        Long id,
 
         @Schema(description = "Número de la habitación", example = "1")
         String numero,
