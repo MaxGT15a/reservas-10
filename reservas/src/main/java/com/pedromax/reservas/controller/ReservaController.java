@@ -82,4 +82,12 @@ public class ReservaController extends CrudController<ReservaRequest, ReservaRes
         Map<String, List<ReservaResponse>> reporteAgrupado = service.obtenerReportePorEstado();
         return ResponseEntity.ok(reporteAgrupado);
     }
+
+    @GetMapping("/huesped-reserva-activa")
+    @Operation(summary = "Ids de huéspedes con reservas activas",
+            description = "Devuelve los ids de los huéspedes con reservas CONFIRMADA o EN_CURSO")
+    @ApiResponse(responseCode = "200", description = "Listado de ids obtenido exitosamente")
+    public ResponseEntity<List<Long>> obtenerIdsHuespedesConReservaActiva() {
+        return ResponseEntity.ok(service.obtenerIdsHuespedesConReservaActiva());
+    }
 }
