@@ -28,9 +28,7 @@ public class HuespedServiceImpl implements HuespedService{
     private final ReservaClient reservaClient;
 
     @Override
-    public HuespedResponse obtenerHuespedPorIdSinEstado(Long id) {
-        return huespedMapper.entidadAResponse(obtenerHuesped(id));
-    }
+    public HuespedResponse obtenerHuespedPorIdSinEstado(Long id) {return huespedMapper.entidadAResponse(obtenerHuesped(id));}
 
     @Override
     @Transactional(readOnly = true)
