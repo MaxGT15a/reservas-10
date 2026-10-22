@@ -42,7 +42,8 @@ public class ReservaMapper implements CommonMapper<ReservaRequest, ReservaRespon
                 entidad.getNumPersonas(),
                 entidad.getPrecioNoche(),
                 entidad.getPrecioTotal(),
-                entidad.getEstadoReserva().getDescripcion()
+                entidad.getEstadoReserva().getDescripcion(),
+                entidad.getEstadoRegistro().getDescripcion()
         );
     }
 
@@ -56,12 +57,14 @@ public class ReservaMapper implements CommonMapper<ReservaRequest, ReservaRespon
                 entidad.getNumPersonas(),
                 entidad.getPrecioNoche(),
                 entidad.getPrecioTotal(),
-                entidad.getEstadoReserva().getDescripcion()
+                entidad.getEstadoReserva().getDescripcion(),
+                entidad.getEstadoRegistro().getDescripcion()
         );
     }
 
     private DatosHuesped huespedResponseADatosHuesped(HuespedResponse huesped) {
         return huesped == null ? null : new DatosHuesped(
+                huesped.id(),
                 String.join(" ", huesped.nombre(), huesped.apellido()).trim(),
                 huesped.email().toLowerCase(),
                 huesped.telefono(),
@@ -72,6 +75,7 @@ public class ReservaMapper implements CommonMapper<ReservaRequest, ReservaRespon
 
     private DatosHabitacion habitacionResponseADatosHabitacion(HabitacionResponse habitacion) {
         return habitacion == null ? null : new DatosHabitacion(
+                habitacion.id(),
                 "Habitación N° " + habitacion.numero(),
                 "$" + habitacion.precio() + " MXN",
                 habitacion.capacidad() + " personas máximo",
