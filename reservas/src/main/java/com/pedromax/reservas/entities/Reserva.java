@@ -61,14 +61,15 @@ public class Reserva {
         ValoresNumericosUtils.validarNumeroPositivo(id, "El id del/la " + campo + " es requerido(a) y debe ser positivo(a)");
     }
 
-    private static void validarFechaNoAnteriorAHoy(LocalDate fechaCita){
-        if (fechaCita == null || !fechaCita.isAfter((LocalDate.now())))
-            throw new DatoInvalidoException("La fecha de la reserva es requerida y debe ser futura");
+    private static void validarFechaNoAnteriorAHoy(LocalDate fecha, String campo) {
+        if (fecha != null && fecha.isBefore(LocalDate.now()))
+            throw new DatoInvalidoException("La fecha de " + campo + " no puede ser anterior al día de hoy");
     }
 
     private static void esFechaInicioMenor(LocalDate fechaEntrada, LocalDate fechaSalida) {
-        validarFechaNoAnteriorAHoy(fechaEntrada);
-        validarFechaNoAnteriorAHoy(fechaSalida);
+        if (fechaEntrada == null || fechaSalida == null) {
+            throw new DatoInvalidoException("Las fechas de entrada y salida son requeridas");
+        }
 
         if (!fechaEntrada.isBefore(fechaSalida))
             throw new DatoInvalidoException("La fecha de entrada no puede ser mayor que la fecha de salida");
@@ -84,8 +85,7 @@ public class Reserva {
         validarId(idHabitacion, "habitación");
         esFechaInicioMenor(fechaEntrada, fechaSalida);
 
-        ValoresNumericosUtils.validarNumeroPositivo(numPersonas,
-                "El número de personas es requerido y debe ser positivo");
+        ValoresNumericosUtils.validarNumeroPositivo(numPersonas, "El número de personas es requerido y debe ser positivo");
     }
 
     private void validarNoEliminada(){
@@ -116,6 +116,11 @@ public class Reserva {
         validarDatos(idHuesped, idHabitacion, numPersonas, fechaEntrada, fechaSalida);
         validarActualizacionPermitida();
 
+        if (!fechaEntrada.equals(this.fechaEntrada)) {
+            validarFechaNoAnteriorAHoy(fechaEntrada, "entrada");
+            validarFechaNoAnteriorAHoy(fechaSalida, "salida");
+        }
+
         this.fechaEntrada = fechaEntrada;
         this.fechaSalida = fechaSalida;
         this.numPersonas = numPersonas;
@@ -138,6 +143,7 @@ public class Reserva {
     public static Reserva crear(Long idHuesped, Long idHabitacion, Integer numPersonas, BigDecimal precioNoche,
                                 LocalDate fechaEntrada, LocalDate fechaSalida){
         validarDatos(idHuesped, idHabitacion, numPersonas, fechaEntrada, fechaSalida);
+        validarFechaNoAnteriorAHoy(fechaEntrada, "entrada");
         ValoresNumericosUtils.validarBigDecimalPositivo(precioNoche, "El precio noche es requerido y debe ser positivo");
 
         return Reserva.builder()
